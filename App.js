@@ -1,18 +1,8 @@
 import React, { Component } from "react";
-import { View, Text } from "react-native";
-import Home from "./src/components/Home";
+import Root from "./src/navigation/ReduxNavigation";
 
 export default class App extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {};
-  }
-
   render() {
-    return (
-      <View>
-        <Home />
-      </View>
-    );
+    return <Root />;
   }
 }
