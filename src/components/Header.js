@@ -1,5 +1,7 @@
 import React, { Component } from "react";
-import { View, Text } from "react-native";
+import { View, Text, TouchableOpacity } from "react-native";
+import styles from "../theme/styles";
+import Icon from "react-native-vector-icons/Ionicons";
 
 export default class Header extends Component {
   constructor(props) {
@@ -9,8 +11,13 @@ export default class Header extends Component {
 
   render() {
     return (
-      <View>
-        <Text> Header </Text>
+      <View style={styles.headerContainer}>
+        <TouchableOpacity
+          onPress={this.onMenuClick}
+          style={styles.headerLeftPanel}
+        >
+          <Icon name="md-menu" style={styles.iconMenu} />
+        </TouchableOpacity>
       </View>
     );
   }

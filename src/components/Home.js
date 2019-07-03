@@ -1,5 +1,7 @@
 import React, { Component } from "react";
-import { View, Text } from "react-native";
+import { View, Text, Image } from "react-native";
+import Header from "./Header";
+import styles from "../theme/styles";
 
 export default class Home extends Component {
   constructor(props) {
@@ -10,7 +12,13 @@ export default class Home extends Component {
   render() {
     return (
       <View>
-        <Text> Home </Text>
+        <Header />
+        <View>
+          <Image
+            source={require("../assets/logo.jpg")}
+            style={styles.logoContainer}
+          />
+        </View>
       </View>
     );
   }
