@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "887630685082",
+    "firebase_url": "https://xonefm-63147.firebaseio.com",
+    "project_id": "xonefm-63147",
+    "storage_bucket": "xonefm-63147.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:887630685082:android:7ba22de617f3dac6",
+        "android_client_info": {
+          "package_name": "com.xonefm"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "887630685082-l5f4kf909di47gugul2aic6hmj2u1o67.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBq9ZL7SXua3Rcl1Dkm2l3a-_dToUdTOTI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "887630685082-l5f4kf909di47gugul2aic6hmj2u1o67.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

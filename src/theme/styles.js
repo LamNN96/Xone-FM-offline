@@ -6,7 +6,8 @@ export default (styles = StyleSheet.create({
     paddingVertical: 10
   },
   headerContainer: {
-    height: 50,
+    height: 40,
+    justifyContent: 'center',
   },
   iconMenu:{
     fontSize: 32,
@@ -14,7 +15,8 @@ export default (styles = StyleSheet.create({
   },
   headerLeftPanel:{
     flex: 1,
-    paddingHorizontal: 5
+    paddingHorizontal: 5,
+    justifyContent: 'center',
   },
   logoContainer:{
      height: 200,
