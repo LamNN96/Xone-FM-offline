@@ -11,6 +11,7 @@ import AntDesign from "react-native-vector-icons/AntDesign";
 import styles from "../theme/styles";
 import moment from "moment";
 import _ from "lodash";
+import ItemTimeFrame from "./ItemTimeFrame";
 
 export default class DownloadMp3 extends Component {
   constructor(props) {
@@ -61,6 +62,7 @@ export default class DownloadMp3 extends Component {
       })
       .then(res => {
         console.log(res);
+        RNFetchBlob.fs.scanFile([{ path: res.path(), mime: "audio/mpeg" }]);
         // the temp file path with file extension `png`
         console.log("The file saved to ", res.path());
         // Beware that when using a file path as Image source on Android,
@@ -149,12 +151,11 @@ export default class DownloadMp3 extends Component {
 
   renderItemTimeFrames = ({ item, index }) => {
     return (
-      <TouchableOpacity
-        style={styles.downloadIconContainer}
-        onPress={() => this.downloadFile(item)}
-      >
-        <Text style={styles.textSelectedDate}>{item.label}</Text>
-      </TouchableOpacity>
+      <ItemTimeFrame
+        item={item}
+        index={index}
+        downloadFile={this.downloadFile}
+      />
     );
   };
 
@@ -177,26 +178,10 @@ export default class DownloadMp3 extends Component {
             <AntDesign name="download" style={styles.downloadIcon} />
           </TouchableOpacity>
         </View>
-        {/* <View style={styles.downloadPanel}>
-          <TouchableOpacity
-            style={styles.downloadIconContainer}
-            onPress={this.downloadFile(selected)}
-          >
-            <Text style={styles.textSelectedDate}>7h-8h</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.downloadIconContainer}
-            onPress={this.downloadFile(selected)}
-          >
-            <Text style={styles.textSelectedDate}>8h-9h</Text>
-          </TouchableOpacity>
-        </View> */}
-
         <FlatList
           renderItem={this.renderItemTimeFrames}
           keyExtractor={this.keyExtractor}
           data={item.timeFrames}
-          numColumns={_.size(item.timeFrames)}
         />
       </View>
     );

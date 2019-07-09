@@ -57,11 +57,18 @@ export default (styles = StyleSheet.create({
   },
   textSelectedDate: {
     fontSize: 25,
+    textAlign: 'center',
+    width:'70%'
   },
   downloadIconContainer: {
     flex: 3,
     justifyContent: "center",
     alignItems: 'center',
+  },
+  itemTimeFrameContainer:{
+    justifyContent: "center",
+    alignItems: 'center',
+    flexDirection: 'row',
   },
   downloadIcon: {
     fontSize: 25
