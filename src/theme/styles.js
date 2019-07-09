@@ -7,19 +7,63 @@ export default (styles = StyleSheet.create({
   },
   headerContainer: {
     height: 40,
-    justifyContent: 'center',
+    justifyContent: "center"
   },
-  iconMenu:{
+  iconMenu: {
     fontSize: 32,
-    color: 'black'
+    color: "black"
   },
-  headerLeftPanel:{
+  headerLeftPanel: {
     flex: 1,
     paddingHorizontal: 5,
-    justifyContent: 'center',
+    justifyContent: "center"
   },
-  logoContainer:{
-     height: 200,
-     width: '100%'
+  logoImage: {
+    height: "100%",
+    width: "100%"
+  },
+  logoContainer: {
+    flex: 1
+  },
+  mainPanel: {
+    flex: 2
+  },
+  flex1: {
+    flex: 1
+  },
+  itemCategoryContainer: {
+    flex: 1,
+    padding: 10
+  },
+  categoryImage: {
+    height: 150,
+    width: "100%"
+  },
+  textNameCategory: {
+    fontSize: 18,
+    marginTop: 5,
+    textAlign: "center"
+  },
+  downloadPanel: {
+    height: "10%",
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center"
+  },
+  selctedDatePanel: {
+    flex: 7,
+    justifyContent: "center",
+    alignItems: 'center',
+  },
+  textSelectedDate: {
+    fontSize: 25,
+  },
+  downloadIconContainer: {
+    flex: 3,
+    justifyContent: "center",
+    alignItems: 'center',
+  },
+  downloadIcon: {
+    fontSize: 25
   }
 }));

@@ -4,38 +4,69 @@ import RNFetchBlob from "rn-fetch-blob";
 import Sound from "react-native-sound";
 import ItemAudio from "./ItemAudio";
 import { sprintf } from "printj";
+import { Calendar } from "react-native-calendars";
+import Header from "./Header";
 import { configuration } from "../configs/configs";
+import AntDesign from "react-native-vector-icons/AntDesign";
+import styles from "../theme/styles";
+import moment from "moment";
+import _ from "lodash";
 
 export default class DownloadMp3 extends Component {
   constructor(props) {
     super(props);
+    console.log(props);
+    const { item } = props.navigation.state.params;
     this.state = {
-      files: []
+      files: [],
+      item,
+      selected: moment(new Date()).format(configuration.format.date)
     };
     Sound.setCategory("Playback");
   }
 
-  downloadFile = date => {
+  downloadFile = timeFrame => {
+    const { selected, item } = this.state;
     let dirs = RNFetchBlob.fs.dirs;
+    let selectedDate = new Date(selected);
+    let year = selectedDate.getFullYear();
+    let month = selectedDate.getMonth() + 1;
+    let stringOfMonth = month < 10 ? "0" + month : month;
+    let day = selectedDate.getDate();
+    let stringOfDay = day < 10 ? "0" + day : day;
+    let link = sprintf(
+      timeFrame.linkFormat,
+      year,
+      stringOfMonth,
+      stringOfDay,
+      stringOfMonth
+    );
+    let path = sprintf(
+      configuration.format.fileSavedPath,
+      dirs.DocumentDir,
+      timeFrame.label,
+      stringOfDay,
+      stringOfMonth,
+      year,
+      _.kebabCase(item.name)
+    );
     RNFetchBlob.config({
       fileCache: true,
       appendExt: "mp3",
-      path:
-        dirs.DocumentDir + "/V89-1606-07h00-BREAKFASTXONE-danhthucngaymoi.mp3"
+      path
     })
-      .fetch(
-        "GET",
-        "https://xonefm.com/wp-content/uploads/2019/06/V89-1606-07h00-BREAKFASTXONE-danhthucngaymoi.mp3",
-        {
-          //some headers ..
-        }
-      )
+      .fetch("GET", link)
+      .progress((received, total) => {
+        console.log("progress", received / total);
+      })
       .then(res => {
+        console.log(res);
         // the temp file path with file extension `png`
         console.log("The file saved to ", res.path());
         // Beware that when using a file path as Image source on Android,
         // you must prepend "file://"" before the file path
-      });
+      })
+      .catch(err => console.log(err));
   };
 
   playAudio = item => {
@@ -78,10 +109,53 @@ export default class DownloadMp3 extends Component {
       });
   };
 
+  onDayPress = day => {
+    this.setState({
+      selected: day.dateString
+    });
+  };
+
+  showCalender = markedDates => {
+    return (
+      <Calendar
+        onDayPress={day => this.onDayPress(day)}
+        onDayLongPress={day => this.onDayLongPress(day)}
+        monthFormat={"MMMM yyyy"}
+        onMonthChange={month => {
+          console.log("month changed", month);
+        }}
+        markedDates={{
+          [this.state.selected]: {
+            selected: true,
+            disableTouchEvent: true,
+            selectedDotColor: "orange"
+          }
+        }}
+        disableMonthChange={true}
+        firstDay={1}
+        onPressArrowLeft={substractMonth => substractMonth()}
+        onPressArrowRight={addMonth => addMonth()}
+      />
+    );
+  };
+
+  onDayLongPress = day => {};
+
   keyExtractor = (item, index) => index.toString();
 
   renderItem = ({ item, index }) => {
     return <ItemAudio item={item} index={index} playAudio={this.playAudio} />;
+  };
+
+  renderItemTimeFrames = ({ item, index }) => {
+    return (
+      <TouchableOpacity
+        style={styles.downloadIconContainer}
+        onPress={() => this.downloadFile(item)}
+      >
+        <Text style={styles.textSelectedDate}>{item.label}</Text>
+      </TouchableOpacity>
+    );
   };
 
   componentDidMount() {
@@ -89,14 +163,40 @@ export default class DownloadMp3 extends Component {
   }
 
   render() {
-    const { files } = this.state;
+    const { files, item, selected } = this.state;
+    const { navigation } = this.props;
     return (
       <View>
-        <Text> App </Text>
+        <Header navigation={navigation} isHome={false} />
+        {this.showCalender(this.markedDates)}
+        <View style={styles.downloadPanel}>
+          <View style={styles.selctedDatePanel}>
+            <Text style={styles.textSelectedDate}>{selected}</Text>
+          </View>
+          <TouchableOpacity style={styles.downloadIconContainer}>
+            <AntDesign name="download" style={styles.downloadIcon} />
+          </TouchableOpacity>
+        </View>
+        {/* <View style={styles.downloadPanel}>
+          <TouchableOpacity
+            style={styles.downloadIconContainer}
+            onPress={this.downloadFile(selected)}
+          >
+            <Text style={styles.textSelectedDate}>7h-8h</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.downloadIconContainer}
+            onPress={this.downloadFile(selected)}
+          >
+            <Text style={styles.textSelectedDate}>8h-9h</Text>
+          </TouchableOpacity>
+        </View> */}
+
         <FlatList
-          data={files}
-          renderItem={this.renderItem}
+          renderItem={this.renderItemTimeFrames}
           keyExtractor={this.keyExtractor}
+          data={item.timeFrames}
+          numColumns={_.size(item.timeFrames)}
         />
       </View>
     );

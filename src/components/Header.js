@@ -9,14 +9,19 @@ export default class Header extends Component {
     this.state = {};
   }
 
+  onBackClick = () => {
+    this.props.navigation.goBack();
+  }
+
   render() {
+    const { isHome } = this.props;
     return (
       <View style={styles.headerContainer}>
         <TouchableOpacity
-          onPress={this.onMenuClick}
+          onPress={isHome ? this.onMenuClick : this.onBackClick}
           style={styles.headerLeftPanel}
         >
-          <Icon name="md-menu" style={styles.iconMenu} />
+          <Icon name={isHome ? "md-menu" : "md-arrow-back"} style={styles.iconMenu} />
         </TouchableOpacity>
       </View>
     );
